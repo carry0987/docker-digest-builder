@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/carry0987/docker-digest-builder/compare/v1.3.0...v1.4.0) (2026-03-13)
+
+
+### Features
+
+* add pull option ([c9a04b3](https://github.com/carry0987/docker-digest-builder/commit/c9a04b317e6f90294be52c2489f544d031df3ffa))
+
 ## [1.3.0](https://github.com/carry0987/docker-digest-builder/compare/v1.2.0...v1.3.0) (2026-03-13)
 
 
