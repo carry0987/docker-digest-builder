@@ -86775,6 +86775,7 @@ function buildBuildxArgs(opts) {
 		opts.provenance,
 		"--sbom",
 		opts.sbom,
+		...opts.pull === "true" ? ["--pull"] : [],
 		...parseBuildArgs(opts.buildArgs),
 		opts.context
 	];
@@ -86805,6 +86806,7 @@ async function run() {
 		const buildArgs = getInput("build-args");
 		const provenance = getInput("provenance");
 		const sbom = getInput("sbom");
+		const pull = getInput("pull");
 		const cacheScope = getInput("cache-scope");
 		const artifactNamePrefix = getInput("artifact-name-prefix");
 		const retentionDays = parseInt(getInput("retention-days"), 10);
@@ -86836,6 +86838,7 @@ async function run() {
 			scope,
 			provenance,
 			sbom,
+			pull,
 			buildArgs,
 			context,
 			metadataFile
