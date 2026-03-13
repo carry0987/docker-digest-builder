@@ -3,6 +3,7 @@ import * as path from 'node:path';
 import { DefaultArtifactClient } from '@actions/artifact';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
+import { buildBuildxArgs, extractDigest, getArtifactName, platformToSlug, resolveCacheScope } from './helpers';
 
 async function run(): Promise<void> {
     try {
@@ -19,8 +20,8 @@ async function run(): Promise<void> {
         const retentionDays = parseInt(core.getInput('retention-days'), 10);
 
         // --- Prepare platform slug ---
-        const slug = platform.replace(/\//g, '-');
-        const scope = cacheScope || slug;
+        const slug = platformToSlug(platform);
+        const scope = resolveCacheScope(cacheScope, slug);
 
         core.info(`Platform: ${platform} → slug: ${slug}, cache scope: ${scope}`);
 
@@ -34,50 +35,26 @@ async function run(): Promise<void> {
 
         // --- Build & push by digest ---
         core.startGroup('Build and push by digest');
-        const buildxArgs = [
-            'buildx',
-            'build',
-            '--platform',
+        const metadataFile = '/tmp/build-metadata.json';
+        const buildxArgs = buildBuildxArgs({
             platform,
-            '--file',
             file,
-            '--output',
-            `type=image,name=${image},push-by-digest=true,name-canonical=true,push=true`,
-            '--cache-from',
-            `type=gha,scope=${scope}`,
-            '--cache-to',
-            `type=gha,mode=max,scope=${scope}`,
-            '--metadata-file',
-            '/tmp/build-metadata.json',
-            '--provenance',
+            image,
+            scope,
             provenance,
-            '--sbom',
-            sbom
-        ];
-
-        // Add build args
-        if (buildArgs) {
-            for (const arg of buildArgs.split('\n')) {
-                const trimmed = arg.trim();
-                if (trimmed) {
-                    buildxArgs.push('--build-arg', trimmed);
-                }
-            }
-        }
-
-        // Add context
-        buildxArgs.push(context);
+            sbom,
+            buildArgs,
+            context,
+            metadataFile
+        });
 
         await exec.exec('docker', buildxArgs);
         core.endGroup();
 
         // --- Extract digest from metadata ---
         core.startGroup('Extract digest');
-        const metadata = JSON.parse(fs.readFileSync('/tmp/build-metadata.json', 'utf8'));
-        const digest: string = metadata['containerimage.digest'];
-        if (!digest) {
-            throw new Error('Failed to extract digest from build metadata');
-        }
+        const metadata = JSON.parse(fs.readFileSync(metadataFile, 'utf8'));
+        const digest = extractDigest(metadata);
         core.info(`Digest: ${digest}`);
         core.setOutput('digest', digest);
         core.endGroup();
@@ -90,7 +67,7 @@ async function run(): Promise<void> {
 
         // --- Upload digest artifact ---
         core.startGroup('Upload digest artifact');
-        const artifactName = `${artifactNamePrefix}-${slug}`;
+        const artifactName = getArtifactName(artifactNamePrefix, slug);
         const artifact = new DefaultArtifactClient();
         await artifact.uploadArtifact(artifactName, [digestFile], digestDir, { retentionDays });
         core.info(`Uploaded artifact: ${artifactName}`);
