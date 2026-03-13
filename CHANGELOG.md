@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/carry0987/docker-digest-builder/compare/v1.1.0...v1.2.0) (2026-03-13)
+
+
+### Features
+
+* add icon ([59c9b55](https://github.com/carry0987/docker-digest-builder/commit/59c9b55e301bf7377bbb272f4a43719e352c74a7))
+
 ## [1.1.0](https://github.com/carry0987/docker-digest-builder/compare/v1.0.1...v1.1.0) (2026-03-13)
 
 
