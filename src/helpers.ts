@@ -34,6 +34,7 @@ export interface BuildxOptions {
     scope: string;
     provenance: string;
     sbom: string;
+    pull: string;
     buildArgs: string;
     context: string;
     metadataFile: string;
@@ -62,6 +63,7 @@ export function buildBuildxArgs(opts: BuildxOptions): string[] {
         opts.provenance,
         '--sbom',
         opts.sbom,
+        ...(opts.pull === 'true' ? ['--pull'] : []),
         ...parseBuildArgs(opts.buildArgs),
         opts.context
     ];

@@ -33,6 +33,10 @@ inputs:
     description: 'Whether to embed SBOM attestation (enables extra unknown/unknown platform entry)'
     required: false
     default: 'false'
+  pull:
+    description: 'Always pull the latest base image'
+    required: false
+    default: 'false'
   cache-scope:
     description: 'GitHub Actions cache scope (defaults to platform slug)'
     required: false

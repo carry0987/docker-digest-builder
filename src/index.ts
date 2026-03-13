@@ -15,6 +15,7 @@ async function run(): Promise<void> {
         const buildArgs = core.getInput('build-args');
         const provenance = core.getInput('provenance');
         const sbom = core.getInput('sbom');
+        const pull = core.getInput('pull');
         const cacheScope = core.getInput('cache-scope');
         const artifactNamePrefix = core.getInput('artifact-name-prefix');
         const retentionDays = parseInt(core.getInput('retention-days'), 10);
@@ -43,6 +44,7 @@ async function run(): Promise<void> {
             scope,
             provenance,
             sbom,
+            pull,
             buildArgs,
             context,
             metadataFile

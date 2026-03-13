@@ -63,6 +63,7 @@ describe('buildBuildxArgs', () => {
         scope: 'linux-amd64',
         provenance: 'true',
         sbom: 'false',
+        pull: 'false',
         buildArgs: '',
         context: '.',
         metadataFile: '/tmp/build-metadata.json'
@@ -103,6 +104,16 @@ describe('buildBuildxArgs', () => {
     it('ends with context', () => {
         const args = buildBuildxArgs(baseOpts);
         expect(args[args.length - 1]).toBe('.');
+    });
+
+    it('includes --pull when pull is true', () => {
+        const args = buildBuildxArgs({ ...baseOpts, pull: 'true' });
+        expect(args).toContain('--pull');
+    });
+
+    it('does not include --pull when pull is false', () => {
+        const args = buildBuildxArgs(baseOpts);
+        expect(args).not.toContain('--pull');
     });
 });
 
