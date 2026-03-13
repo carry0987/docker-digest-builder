@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/carry0987/docker-digest-builder/compare/v1.4.0...v1.5.0) (2026-03-13)
+
+
+### Features
+
+* fix CI ([7f90e14](https://github.com/carry0987/docker-digest-builder/commit/7f90e14c142f4b4b9539b37ef9a19edae0c0a85d))
+
 ## [1.4.0](https://github.com/carry0987/docker-digest-builder/compare/v1.3.0...v1.4.0) (2026-03-13)
 
 
