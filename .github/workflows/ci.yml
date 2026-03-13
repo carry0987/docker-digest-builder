@@ -12,13 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-        with:
-          version: latest
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: pnpm
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
 
@@ -27,13 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-        with:
-          version: latest
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: pnpm
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
 
@@ -42,20 +40,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-        with:
-          version: latest
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: pnpm
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
 
+      # Ensure dist/ is up to date
       - name: Check for uncommitted dist changes
         run: |
           if [ -n "$(git status --porcelain dist/)" ]; then
-            echo "::error::dist/ is out of date. Run 'pnpm build' and commit the changes."
+            echo "::error::dist/ files are out of date. Run 'pnpm build' and commit the changes."
             git diff --stat dist/
             exit 1
           fi

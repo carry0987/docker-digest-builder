@@ -1,17 +1,51 @@
-name: My Action
-description: 'TODO: Describe what your action does'
-branding:
-  icon: 'book'
-  color: 'blue'
+name: Docker Digest Builder
+description: >
+  Build a Docker image for a single platform, push by digest (no tag),
+  and upload the digest as an artifact for later multi-arch manifest merging.
 
 inputs:
-  name:
-    description: 'TODO: Describe this input'
+  image:
+    description: 'Full image name (e.g. ghcr.io/org/app)'
     required: true
+  platform:
+    description: 'Target platform (e.g. linux/amd64)'
+    required: true
+  file:
+    description: 'Path to Dockerfile'
+    required: false
+    default: './Dockerfile'
+  context:
+    description: 'Build context path'
+    required: false
+    default: '.'
+  build-args:
+    description: 'Build arguments (multi-line)'
+    required: false
+    default: ''
+  provenance:
+    description: 'Whether to embed provenance attestation (enables unknown/unknown platform entry)'
+    required: false
+    default: 'true'
+  sbom:
+    description: 'Whether to embed SBOM attestation (enables extra unknown/unknown platform entry)'
+    required: false
+    default: 'false'
+  cache-scope:
+    description: 'GitHub Actions cache scope (defaults to platform slug)'
+    required: false
+    default: ''
+  artifact-name-prefix:
+    description: 'Artifact name prefix for the digest upload'
+    required: false
+    default: 'digests'
+  retention-days:
+    description: 'Number of days to retain the digest artifact'
+    required: false
+    default: '1'
 
 outputs:
-  result:
-    description: 'TODO: Describe this output'
+  digest:
+    description: 'The sha256 digest of the pushed image'
 
 runs:
   using: node20
