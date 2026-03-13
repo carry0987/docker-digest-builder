@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/carry0987/docker-digest-builder/compare/v1.2.0...v1.3.0) (2026-03-13)
+
+
+### Features
+
+* using node24 ([e5dc4c8](https://github.com/carry0987/docker-digest-builder/commit/e5dc4c8c95799c235a2005d16cad5bdc728a58bf))
+
 ## [1.2.0](https://github.com/carry0987/docker-digest-builder/compare/v1.1.0...v1.2.0) (2026-03-13)
 
 
