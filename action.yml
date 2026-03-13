@@ -2,6 +2,9 @@ name: Docker Digest Builder
 description: >
   Build and push a single-platform Docker image by digest,
   then upload it as an artifact for multi-arch manifest merging.
+branding:
+  icon: 'box'
+  color: 'blue'
 
 inputs:
   image:
