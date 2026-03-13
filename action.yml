@@ -1,7 +1,7 @@
 name: Docker Digest Builder
 description: >
-  Build a Docker image for a single platform, push by digest (no tag),
-  and upload the digest as an artifact for later multi-arch manifest merging.
+  Build and push a single-platform Docker image by digest,
+  then upload it as an artifact for multi-arch manifest merging.
 
 inputs:
   image:
