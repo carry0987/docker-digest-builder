@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/carry0987/docker-digest-builder/compare/v1.0.1...v1.1.0) (2026-03-13)
+
+
+### Features
+
+* update description ([99bcdbc](https://github.com/carry0987/docker-digest-builder/commit/99bcdbc3039e2a1ecc76db69b0acdd25c169eefa))
+
 ## [1.0.1](https://github.com/carry0987/docker-digest-builder/compare/v1.0.0...v1.0.1) (2026-03-13)
 
 
