@@ -1,0 +1,18 @@
+name: My Action
+description: 'TODO: Describe what your action does'
+branding:
+  icon: 'book'
+  color: 'blue'
+
+inputs:
+  name:
+    description: 'TODO: Describe this input'
+    required: true
+
+outputs:
+  result:
+    description: 'TODO: Describe this output'
+
+runs:
+  using: node20
+  main: dist/index.cjs

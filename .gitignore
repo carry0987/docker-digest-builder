@@ -1,0 +1,35 @@
+# Dependencies
+node_modules
+
+# Build
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+
+# Tests
+/test-results/
+/blob-report/
+
+# IDEs and editors
+/.idea/
+.c9/
+.project
+.classpath
+.settings/
+*.launch
+*.sublime-workspace
+
+# Temp
+.temp/
+.tmp/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
