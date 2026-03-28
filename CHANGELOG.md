@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/carry0987/docker-digest-builder/compare/v1.5.0...v1.6.0) (2026-03-28)
+
+
+### Features
+
+* Update tsconfig to ESNext and add Node types ([2362bcd](https://github.com/carry0987/docker-digest-builder/commit/2362bcd235f516eadb6f7500ddcf536b09ea5b7b))
+* Use registry buildx output; bump deps ([7206da9](https://github.com/carry0987/docker-digest-builder/commit/7206da9a8e0df097a282954953eb68fc0c1b2066))
+
 ## [1.5.0](https://github.com/carry0987/docker-digest-builder/compare/v1.4.0...v1.5.0) (2026-03-13)
 
 
