@@ -16,10 +16,10 @@
     "@actions/exec": "^3.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.6",
+    "@biomejs/biome": "^2.4.9",
     "@types/node": "^25.5.0",
-    "tsdown": "^0.21.2",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.0"
+    "tsdown": "^0.21.6",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
   }
 }

@@ -52,7 +52,7 @@ export function buildBuildxArgs(opts: BuildxOptions): string[] {
         '--file',
         opts.file,
         '--output',
-        `type=image,name=${opts.image},push-by-digest=true,name-canonical=true,push=true`,
+        `type=registry,name=${opts.image},push-by-digest=true,name-canonical=true`,
         '--cache-from',
         `type=gha,scope=${opts.scope}`,
         '--cache-to',

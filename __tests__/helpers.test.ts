@@ -79,7 +79,7 @@ describe('buildBuildxArgs', () => {
             '--file',
             './Dockerfile',
             '--output',
-            'type=image,name=ghcr.io/org/app,push-by-digest=true,name-canonical=true,push=true',
+            'type=registry,name=ghcr.io/org/app,push-by-digest=true,name-canonical=true',
             '--cache-from',
             'type=gha,scope=linux-amd64',
             '--cache-to',
