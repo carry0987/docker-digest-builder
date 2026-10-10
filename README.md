@@ -56,24 +56,26 @@ jobs:
 
 ## Inputs
 
-| Name | Required | Default | Description |
-|------|:--------:|---------|-------------|
-| `image` | Yes | — | Repository name only (e.g. `ghcr.io/org/app`, without tag or digest) |
-| `normalize` | No | `false` | Lowercase the repository name before validation |
-| `platform` | Yes | — | Target platform (e.g. `linux/amd64`) |
-| `file` | No | `./Dockerfile` | Path to Dockerfile |
-| `context` | No | `.` | Build context path |
-| `build-args` | No | `''` | Build arguments (multi-line, one per line) |
-| `provenance` | No | `true` | Whether to embed provenance attestation |
-| `sbom` | No | `false` | Whether to embed SBOM attestation |
-| `cache-scope` | No | Platform slug | GitHub Actions cache scope |
-| `artifact-name-prefix` | No | `digests` | Artifact name prefix for the digest upload |
-| `retention-days` | No | `1` | Number of days to retain the digest artifact |
+| Name                   | Required | Default           | Description                                                                                                                         |
+| ---------------------- | :------: | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `image`                |   Yes    | —                 | Repository name only (e.g. `ghcr.io/org/app`, without tag or digest)                                                                |
+| `normalize`            |    No    | `false`           | Lowercase the repository name before validation                                                                                     |
+| `platform`             |   Yes    | —                 | Target platform (e.g. `linux/amd64`)                                                                                                |
+| `file`                 |    No    | `./Dockerfile`    | Path to Dockerfile                                                                                                                  |
+| `context`              |    No    | `.`               | Build context path                                                                                                                  |
+| `build-args`           |    No    | `''`              | Build arguments (multi-line, one per line)                                                                                          |
+| `provenance`           |    No    | `true`            | Whether to embed provenance attestation                                                                                             |
+| `sbom`                 |    No    | `false`           | Whether to embed SBOM attestation                                                                                                   |
+| `cache-from`           |    No    | type=gha          | [External cache source](https://docs.docker.com/engine/reference/commandline/buildx_build/#cache-from). Set to `false` to disable.  |
+| `cache-to`             |    No    | type=gha,mode=max | [Cache export destination](https://docs.docker.com/engine/reference/commandline/buildx_build/#cache-to). Set to `false` to disable. |
+| `cache-scope`          |    No    | Platform slug     | GitHub Actions cache scope (gets automatically added to `cache-from` and `cache-to`)                                                |
+| `artifact-name-prefix` |    No    | `digests`         | Artifact name prefix for the digest upload                                                                                          |
+| `retention-days`       |    No    | `1`               | Number of days to retain the digest artifact                                                                                        |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
+| Name     | Description                             |
+| -------- | --------------------------------------- |
 | `digest` | The `sha256` digest of the pushed image |
 
 ## How it works
@@ -93,7 +95,7 @@ The uploaded artifact is intended to be consumed by a subsequent job that downlo
 
 ## Caching
 
-This action uses [GitHub Actions cache](https://docs.docker.com/build/cache/backends/gha/) (`type=gha`) for Docker layer caching. Each platform gets its own cache scope (derived from the platform slug, e.g. `linux-amd64`). You can override this with the `cache-scope` input.
+This action uses [GitHub Actions cache](https://docs.docker.com/build/cache/backends/gha/) (`type=gha`) for Docker layer caching by default. Each platform gets its own cache scope (derived from the platform slug, e.g. `linux-amd64`). You can customize this behavior with `cache-from` and `cache-to` or just the scope with the `cache-scope` input.
 
 ## License
 

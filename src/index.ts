@@ -25,6 +25,8 @@ async function run(): Promise<void> {
         const provenance = core.getInput('provenance');
         const sbom = core.getInput('sbom');
         const pull = core.getInput('pull');
+        const cacheFrom = core.getInput('cache-from');
+        const cacheTo = core.getInput('cache-to');
         const cacheScope = core.getInput('cache-scope');
         const artifactNamePrefix = core.getInput('artifact-name-prefix');
         const retentionDays = parseInt(core.getInput('retention-days'), 10);
@@ -54,6 +56,8 @@ async function run(): Promise<void> {
             platform,
             file,
             image,
+            cacheFrom,
+            cacheTo,
             scope,
             provenance,
             sbom,

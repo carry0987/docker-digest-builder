@@ -92774,6 +92774,15 @@ function resolveCacheScope(cacheScope, slug) {
 	return cacheScope || slug;
 }
 /**
+* Parse cache-from and cache-to arguments.
+*/
+function parseCacheArgs(cacheFrom, cacheTo, cacheScope) {
+	const result = [];
+	if (cacheFrom && cacheFrom !== "false") result.push("--cache-from", `${cacheFrom},scope=${cacheScope}`);
+	if (cacheTo && cacheTo !== "false") result.push("--cache-to", `${cacheTo},scope=${cacheScope}`);
+	return result;
+}
+/**
 * Parse multi-line build args into an array of `['--build-arg', 'ARG=val']` pairs.
 */
 function parseBuildArgs(buildArgs) {
@@ -92798,10 +92807,6 @@ function buildBuildxArgs(opts) {
 		opts.file,
 		"--output",
 		`type=registry,name=${opts.image},push-by-digest=true,name-canonical=true`,
-		"--cache-from",
-		`type=gha,scope=${opts.scope}`,
-		"--cache-to",
-		`type=gha,mode=max,scope=${opts.scope}`,
 		"--metadata-file",
 		opts.metadataFile,
 		"--provenance",
@@ -92809,6 +92814,7 @@ function buildBuildxArgs(opts) {
 		"--sbom",
 		opts.sbom,
 		...opts.pull === "true" ? ["--pull"] : [],
+		...parseCacheArgs(opts.cacheFrom, opts.cacheTo, opts.scope),
 		...parseBuildArgs(opts.buildArgs),
 		opts.context
 	];
@@ -92841,6 +92847,8 @@ async function run() {
 		const provenance = getInput("provenance");
 		const sbom = getInput("sbom");
 		const pull = getInput("pull");
+		const cacheFrom = getInput("cache-from");
+		const cacheTo = getInput("cache-to");
 		const cacheScope = getInput("cache-scope");
 		const artifactNamePrefix = getInput("artifact-name-prefix");
 		const retentionDays = parseInt(getInput("retention-days"), 10);
@@ -92870,6 +92878,8 @@ async function run() {
 			platform,
 			file,
 			image,
+			cacheFrom,
+			cacheTo,
 			scope,
 			provenance,
 			sbom,

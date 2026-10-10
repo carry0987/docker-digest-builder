@@ -64,6 +64,20 @@ export function resolveCacheScope(cacheScope: string, slug: string): string {
 }
 
 /**
+ * Parse cache-from and cache-to arguments.
+ */
+export function parseCacheArgs(cacheFrom: string, cacheTo: string, cacheScope: string): string[] {
+    const result: string[] = [];
+    if (cacheFrom && cacheFrom !== 'false') {
+        result.push('--cache-from', `${cacheFrom},scope=${cacheScope}`);
+    }
+    if (cacheTo && cacheTo !== 'false') {
+        result.push('--cache-to', `${cacheTo},scope=${cacheScope}`);
+    }
+    return result;
+}
+
+/**
  * Parse multi-line build args into an array of `['--build-arg', 'ARG=val']` pairs.
  */
 export function parseBuildArgs(buildArgs: string): string[] {
@@ -82,6 +96,8 @@ export interface BuildxOptions {
     platform: string;
     file: string;
     image: string;
+    cacheFrom: string;
+    cacheTo: string;
     scope: string;
     provenance: string;
     sbom: string;
@@ -104,10 +120,6 @@ export function buildBuildxArgs(opts: BuildxOptions): string[] {
         opts.file,
         '--output',
         `type=registry,name=${opts.image},push-by-digest=true,name-canonical=true`,
-        '--cache-from',
-        `type=gha,scope=${opts.scope}`,
-        '--cache-to',
-        `type=gha,mode=max,scope=${opts.scope}`,
         '--metadata-file',
         opts.metadataFile,
         '--provenance',
@@ -115,6 +127,7 @@ export function buildBuildxArgs(opts: BuildxOptions): string[] {
         '--sbom',
         opts.sbom,
         ...(opts.pull === 'true' ? ['--pull'] : []),
+        ...parseCacheArgs(opts.cacheFrom, opts.cacheTo, opts.scope),
         ...parseBuildArgs(opts.buildArgs),
         opts.context
     ];

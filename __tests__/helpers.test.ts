@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
+    type BuildxOptions,
     buildBuildxArgs,
     extractDigest,
     getArtifactName,
     normalizeImageName,
     parseBuildArgs,
+    parseCacheArgs,
     platformToSlug,
     resolveCacheScope
 } from '../src/helpers';
@@ -30,6 +32,25 @@ describe('resolveCacheScope', () => {
 
     it('falls back to slug when scope is empty', () => {
         expect(resolveCacheScope('', 'linux-amd64')).toBe('linux-amd64');
+    });
+});
+
+describe('parseCacheArgs', () => {
+    it('returns empty array for empty string', () => {
+        expect(parseCacheArgs('', '', 'my-scope')).toEqual([]);
+    });
+
+    it('returns empty array when disabled', () => {
+        expect(parseCacheArgs('false', 'false', 'my-scope')).toEqual([]);
+    });
+
+    it('combines cache arg with scope', () => {
+        expect(parseCacheArgs('type=gha', 'type=gha,mode=max', 'my-scope')).toEqual([
+            '--cache-from',
+            'type=gha,scope=my-scope',
+            '--cache-to',
+            'type=gha,mode=max,scope=my-scope'
+        ]);
     });
 });
 
@@ -91,10 +112,12 @@ describe('normalizeImageName', () => {
 });
 
 describe('buildBuildxArgs', () => {
-    const baseOpts = {
+    const baseOpts: BuildxOptions = {
         platform: 'linux/amd64',
         file: './Dockerfile',
         image: 'ghcr.io/org/app',
+        cacheFrom: 'type=gha',
+        cacheTo: 'type=gha,mode=max',
         scope: 'linux-amd64',
         provenance: 'true',
         sbom: 'false',
@@ -115,16 +138,16 @@ describe('buildBuildxArgs', () => {
             './Dockerfile',
             '--output',
             'type=registry,name=ghcr.io/org/app,push-by-digest=true,name-canonical=true',
-            '--cache-from',
-            'type=gha,scope=linux-amd64',
-            '--cache-to',
-            'type=gha,mode=max,scope=linux-amd64',
             '--metadata-file',
             '/tmp/build-metadata.json',
             '--provenance',
             'true',
             '--sbom',
             'false',
+            '--cache-from',
+            'type=gha,scope=linux-amd64',
+            '--cache-to',
+            'type=gha,mode=max,scope=linux-amd64',
             '.'
         ]);
     });

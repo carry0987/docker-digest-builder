@@ -41,6 +41,14 @@ inputs:
     description: 'Always pull the latest base image'
     required: false
     default: 'false'
+  cache-from:
+    description: 'External cache source. Set to `false` to disable.'
+    required: false
+    default: 'type=gha'
+  cache-to:
+    description: 'Cache export destination. Set to `false` to disable.'
+    required: false
+    default: 'type=gha,mode=max'
   cache-scope:
     description: 'GitHub Actions cache scope (defaults to platform slug)'
     required: false
